@@ -1,0 +1,5 @@
+1)connect to the database
+-we do that in the appliation.properties file
+-go to mySQL and create a database called tw
+in mySqL type: Create database dataBasename;, highlight and execute
+2)Create jp entity
