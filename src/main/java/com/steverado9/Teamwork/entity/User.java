@@ -38,14 +38,14 @@ public class User {
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     //default constructor
     public User() {}
 
     //parameter constructor
     public User(String firstName, String lastName, String email, String password, String gender,
-                String jobRole, String department, String address, String created_at) {
+                String jobRole, String department, String address) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -129,7 +129,7 @@ public class User {
         this.address = address;
     }
 
-    public LocalDateTime getCreated_at() {
-        return created_at;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 }

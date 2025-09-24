@@ -3,3 +3,13 @@
 -go to mySQL and create a database called tw
 in mySqL type: Create database dataBasename;, highlight and execute
 2)Create jp entity
+
+
+how to enable live roload
+-check if pom.xml has "spring-boot-devtools"
+-Go to File > Settings > Build, Execution, Deployment > Compiler
+Check Build project automatically
+
+Go to File > Settings > Advanced Settings
+Look under Compiler
+Enable: “Allow auto-make to start even if application is running”
