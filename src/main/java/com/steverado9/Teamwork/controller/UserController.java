@@ -49,24 +49,23 @@ public class UserController {
 
     @PostMapping("/api/v1/auth/sign_in")
     public String getUser(@ModelAttribute("user") User user, Model model) {
+        //get a particular user using the email, return a user or null
         User existingUser = userService.getUserByEmail(user.getEmail());
 
-        Boolean result = userService.getAllUsers().contains(existingUser);
-
-        if(!result) {
+        if(existingUser == null) {
             System.out.println("user does not exist");
             model.addAttribute("errorMessage", "invalid email and password");
             return "redirect:/sign_in";
         }
 
-        String existingPassword = existingUser.getPassword().toLowerCase();
-        if (user.getPassword() != existingPassword) {
+        String existingPassword = existingUser.getPassword();
+        if (!user.getPassword().equalsIgnoreCase(existingPassword)) {
             System.out.println("Incorrect password");
             model.addAttribute("errorMessage", "invalid email and password");
             return "redirect:/sign_in";
         }
 
-        if (existingUser.getJobRole().toLowerCase() == "admin") {
+        if (existingUser.getJobRole().equalsIgnoreCase("admin")) {
             return "feedForAdmin";
         }
         return "feedForEmployee";
