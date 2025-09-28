@@ -24,7 +24,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="Password" class="form-label">Password</label>
-                        <input type="Password" name="password" th:field="password" class="form-control" id="Password" placeholder="enter password" required>
+                        <input type="Password" name="password" th:field="*{password}" class="form-control" id="Password" placeholder="enter password" required>
                         <div class="invalid-feedback">
                             Please provide a password.
                         </div>

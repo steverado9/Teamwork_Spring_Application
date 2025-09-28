@@ -16,8 +16,6 @@ public class TeamworkApplication implements CommandLineRunner {
 
 	@Autowired
 	private UserRepository userRepository;
-	//'Stephen', 'Isaac', 'isaac.stephen@example.com', hashedPassword, 'Male', 'admin', 'Engineering', '7 Adekoya Street, Lagos, Nigeria';
-	//password = stephen123
 
 	@Override
 	public void run(String... args) throws Exception {

@@ -55,14 +55,14 @@ public class UserController {
         if(existingUser == null) {
             System.out.println("user does not exist");
             model.addAttribute("errorMessage", "invalid email and password");
-            return "redirect:/sign_in";
+            return "sign_in";
         }
 
         String existingPassword = existingUser.getPassword();
         if (!user.getPassword().equalsIgnoreCase(existingPassword)) {
             System.out.println("Incorrect password");
             model.addAttribute("errorMessage", "invalid email and password");
-            return "redirect:/sign_in";
+            return "sign_in";
         }
 
         if (existingUser.getJobRole().equalsIgnoreCase("admin")) {
@@ -75,6 +75,6 @@ public class UserController {
     @GetMapping("/")
     public String home() {
         System.out.println("Home");
-        return "pageNotFound";
+        return "redirect:/sign_in";
     }
 }
