@@ -15,11 +15,13 @@ public class Article {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "content", nullable = false)
+    @Column(name = "content", nullable = false , columnDefinition = "TEXT")
     private String content;
 
-    @Column(name = "user_id", nullable = false)
-    private Long user_id;
+    //Many articles can belong to one user
+    @ManyToOne(fetch = FetchType.LAZY) //lazy = load user only when needed
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
@@ -59,19 +61,16 @@ public class Article {
         this.content = content;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }
