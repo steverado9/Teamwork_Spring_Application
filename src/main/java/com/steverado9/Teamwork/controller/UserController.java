@@ -10,6 +10,7 @@ import com.steverado9.Teamwork.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -32,7 +33,7 @@ public class UserController {
         }
 
         if (!loggedInUser.getJobRole().equalsIgnoreCase("admin")) {
-            return "redirect:/access_denied";
+            return "access_denied";
         }
 
         User user = new User();
@@ -41,7 +42,7 @@ public class UserController {
     }
 
     @PostMapping("/api/v1/auth/create_user")
-    public String saveUser(@ModelAttribute("user") User user, Model model, HttpSession session) {
+    public String saveUser(@ModelAttribute("user") User user, Model model, HttpSession session, RedirectAttributes redirectAttributes) {
         try {
             User loggedInUser = (User) session.getAttribute("loggedInUser");
 
@@ -49,15 +50,18 @@ public class UserController {
                 return "redirect:/api/v1/auth/sign_in";
             }
 
-            if (loggedInUser.getJobRole().equalsIgnoreCase("admin")) {
-                return "redirect:/access_denied";
+            if (!loggedInUser.getJobRole().equalsIgnoreCase("admin")) {
+                return "access_denied";
             }
 
             userService.saveUser(user);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Employee created sucessfully!, please signin");
+
             return "redirect:/api/v1/auth/sign_in";
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("errorMessage", "Email already exists!");
-            return "/api/v1/auth/create_user";
+            return "create_user";
         }
     }
 
@@ -90,7 +94,7 @@ public class UserController {
         session.setAttribute("loggedInUser", existingUser);
 
         if (existingUser.getJobRole().equalsIgnoreCase("admin")) {
-            return "feeds";
+            return "redirect:/api/v1/feeds";
         }
         return "feedForEmployee";
     }

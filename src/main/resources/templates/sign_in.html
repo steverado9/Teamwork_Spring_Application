@@ -12,6 +12,9 @@
             <h1 class="text-center">Sign In</h1>
             <div class="card-body justify-content-center">
                 <form class="needs-validation" th:action="@{/api/v1/auth/sign_in}" th:object="${user}" method="POST" novalidate>
+                    <div th:if="${successMessage}" class="alert alert-success mt-3">
+                        <p th:text="${successMessage}"></p>
+                    </div>
                     <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
                         <p th:text="${errorMessage}"></p>
                     </div>
