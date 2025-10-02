@@ -1,7 +1,9 @@
 package com.steverado9.Teamwork.controller;
 
 import com.steverado9.Teamwork.entity.Article;
+import com.steverado9.Teamwork.entity.ArticleComment;
 import com.steverado9.Teamwork.entity.User;
+import com.steverado9.Teamwork.service.ArticleCommentService;
 import com.steverado9.Teamwork.service.ArticleService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -17,9 +19,12 @@ public class ArticleController {
 
     private ArticleService articleService;
 
-    public ArticleController(ArticleService articleService) {
+    private ArticleCommentService articleCommentService;
+
+    public ArticleController(ArticleService articleService, ArticleCommentService articleCommentService) {
         super();
         this.articleService = articleService;
+        this.articleCommentService = articleCommentService;
     }
 
     @GetMapping("/api/v1/articles")
@@ -63,7 +68,7 @@ public class ArticleController {
     public String updateArticle(@PathVariable Long id, @ModelAttribute("article") Article article, Model model) {
         //get article from database by id
         Article existingArticle = articleService.getArticleById(id);
-        existingArticle.setArticle_id(id);
+        existingArticle.setId(id);
         existingArticle.setTitle(article.getTitle());
         existingArticle.setContent(article.getContent());
 
@@ -72,9 +77,37 @@ public class ArticleController {
         return "redirect:/api/v1/feeds";
     }
 
-    @GetMapping("/api/v1/articles/{id}")
+    @GetMapping("/api/v1/articles/delete/{id}")
     public String deleteArticle(@PathVariable Long id) {
         articleService.deleteArticleById(id);
         return "redirect:/api/v1/feeds";
+    }
+
+    @GetMapping("/api/v1/articles/{id}/comment")
+    public String createCommentForm(Model model) {
+        ArticleComment articleComment = new ArticleComment();
+        model.addAttribute("comment", articleComment);
+        return "create_article_comment";
+    }
+
+    @PostMapping("/api/v1/articles/{id}/comment")
+    public String saveArticleComment(@PathVariable Long id, @ModelAttribute("comment") ArticleComment articleComment,HttpSession session) {
+        //get user from the session
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        articleComment.setUser(loggedInUser);
+
+        //get article by id
+        Article existingArticle = articleService.getArticleById(id);
+        articleComment.setArticle(existingArticle);
+
+        articleCommentService.saveArticleComment(articleComment);
+        return "redirect:/api/v1/feeds";
+    }
+
+    @GetMapping("/api/v1/articles/{id}")
+    public String getOneArticleForm (@PathVariable Long id, Model model) {
+        model.addAttribute("article",  articleService.getArticleById(id));
+        model.addAttribute("articleComments", articleCommentService.getArticleCommentsWithId(id));
+        return "single_article";
     }
 }

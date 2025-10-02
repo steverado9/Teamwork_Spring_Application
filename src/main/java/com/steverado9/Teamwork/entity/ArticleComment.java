@@ -19,6 +19,7 @@ public class ArticleComment {
     @JoinColumn(name = "article_id", nullable = false)
     private Article article;
 
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

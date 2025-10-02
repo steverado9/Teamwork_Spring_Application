@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long article_id;
+    private Long id;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -37,12 +37,12 @@ public class Article {
         this.content = content;
     }
 
-    public Long getArticle_id() {
-        return article_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setArticle_id(Long article_id) {
-        this.article_id = article_id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
