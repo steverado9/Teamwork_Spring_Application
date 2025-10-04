@@ -1,0 +1,35 @@
+Typically, if we want to implement the URL handler using traditional
+@RequestMapping annotation, it would have been something like this
+@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+
+The new approach makes it possible to shorten this simply to:
+@GetMapping("/get/{id}")
+
+Spring currently supports five types of inbuilt annotations for handling different types of incoming HTTP request methods
+which are GET, POST, PUT, DELETE, and PATCH.
+These annotations are:
+1)@GetMapping - shortcut for @RequestMapping(method = RequestMethod.GET)
+2)@PostMapping - shortcut for @RequestMapping(method = RequestMethod.POST)
+3)@PutMapping - shortcut for @RequestMapping(method = RequestMethod.PUT)
+4)@DeleteMapping - shortcut for @RequestMapping(method =RequestMethod.DELETE)
+5)@PatchMapping - shortcut for @RequestMapping(method = RequestMethod.PATCH)
+
+@GetMapping
+The GET HTTP request is used to get single or multiple resources
+and @GetMapping annotation for mapping HTTP GET requests onto specific handler methods.
+
+@PostMapping
+The POST HTTP method is used to create a resource
+and @PostMapping annotation for mapping HTTP POST requests onto specific handler methods.
+
+@PutMapping
+The PUT HTTP method is used to update the resource
+and @PutMapping annotation for mapping HTTP PUT requests onto specific handler methods.
+
+@DeleteMapping
+The DELETE HTTP method is used to delete the resource
+and @DeleteMapping annotation for mapping HTTP DELETE requests onto specific handler methods.
+
+@PatchMapping
+The PATCH HTTP method is used when you want to apply a partial update to the resource
+and @PatchMapping annotation for mapping HTTP PATCH requests onto specific handler methods.
