@@ -96,7 +96,7 @@ public class UserController {
         if (existingUser.getJobRole().equalsIgnoreCase("admin")) {
             return "redirect:/api/v1/feeds";
         }
-        return "feedForEmployee";
+        return "redirect:/api/v1/feeds";
     }
 
     @GetMapping("/logout")

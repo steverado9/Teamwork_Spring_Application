@@ -10,7 +10,7 @@
         <div class="container-fluid">
             <a class="navbar-brand">Articles and Gifs</a>
             <ul class="d-flex list-unstyled" role="search">
-                <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/api/v1/auth/create_user}">Create employee</a></li>
+                <li th:if="${admin}" class="me-4"><a class="text-white text-decoration-none" th:href="@{/api/v1/auth/create_user}">Create employee</a></li>
                 <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/logout}">Logout</a></li>
                 <li class=""><a class="text-white text-decoration-none" th:href="@{/api/v1/articles}">Post Article</a></li>
             </ul>
@@ -21,13 +21,22 @@
     <div class="container">
         <div class="row">
             <div class="card m-3" style="width: 18rem;" th:each="article : ${articles}">
-                <a th:href="@{/api/v1/articles/{id}(id=${article.id})}" class="card-body">
-                    <h5 class="card-title" th:text="${article.title}"></h5>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a th:text="${article.title}" th:href="@{/api/v1/articles/{id}(id=${article.id})}"  class="text-decoration-none"></a>
+                    </h5>
                     <p class="card-text" th:text="${article.content}"></p>
-                    <a th:href="@{/api/v1/articles/{id}/comment(id=${article.id})}" class="btn btn-success">Add Comment</a>
-                    <a th:href="@{/api/v1/articles/edit/{id}(id=${article.id})}" class="btn btn-primary">Edit</a>
-                    <a th:href="@{/api/v1/articles/delete/{id}(id=${article.id})}" class="btn btn-danger">Delete</a>
-                </a>
+                    <div class="d-flex">
+                        <a th:href="@{/api/v1/articles/{id}/comment(id=${article.id})}" class="btn btn-success">Add Comment</a>
+
+                        <a th:href="@{/api/v1/articles/edit/{id}(id=${article.id})}" class="btn btn-primary">Edit</a>
+
+                        <form th:action="@{/api/v1/articles/delete/{id}(id=${article.id})}" method="post" style="display:inline;">
+                            <a type="submit" class="btn btn-danger">Delete</a>
+                        </form>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

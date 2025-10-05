@@ -1,6 +1,8 @@
 package com.steverado9.Teamwork.controller;
 
+import com.steverado9.Teamwork.entity.User;
 import com.steverado9.Teamwork.service.ArticleService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +18,12 @@ public class FeedController {
     }
 
     @GetMapping("/api/v1/feeds")
-    public String listOfArticles(Model model) {
+    public String listOfArticles(Model model, HttpSession session) {
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
         model.addAttribute("articles", articleService.getAllArticles());
+        model.addAttribute("admin",  loggedInUser.getJobRole().equalsIgnoreCase("admin"));
+
         return "feeds";
     }
 

@@ -81,9 +81,11 @@ public class ArticleController {
     }
 
     @GetMapping("/api/v1/articles/{id}/comment")
-    public String createCommentForm(Model model) {
+    public String createCommentForm(@PathVariable Long id, Model model) {
+
         ArticleComment articleComment = new ArticleComment();
         model.addAttribute("comment", articleComment);
+        model.addAttribute("articleId", id);
         return "create_article_comment";
     }
 

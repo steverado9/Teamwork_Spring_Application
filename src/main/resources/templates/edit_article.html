@@ -20,7 +20,7 @@
     <br>
     <div class="container">
         <div class="row">
-            <form th:action="@{/api/v1/articles/{id}(id=${article.article_id})}" th:object="${article}" method="POST">
+            <form th:action="@{/api/v1/articles/{id}(id=${article.id})}" th:object="${article}" method="PUT">
                 <div class="mb-3 mt-3">
                     <input type="text" name="title" th:field="*{title}" class="form-control" id="exampleFormControlInput1" placeholder="article title">
                 </div>
