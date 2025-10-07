@@ -84,13 +84,13 @@ public class ArticleController {
     public String createCommentForm(@PathVariable Long id, Model model) {
 
         ArticleComment articleComment = new ArticleComment();
-        model.addAttribute("comment", articleComment);
+        model.addAttribute("articleComment", articleComment);
         model.addAttribute("articleId", id);
         return "create_article_comment";
     }
 
     @PostMapping("/api/v1/articles/{id}/comment")
-    public String saveArticleComment(@PathVariable Long id, @ModelAttribute("comment") ArticleComment articleComment,HttpSession session) {
+    public String saveArticleComment(@PathVariable Long id, @ModelAttribute("articleComment") ArticleComment articleComment,HttpSession session) {
         //get user from the session
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         articleComment.setUser(loggedInUser);
