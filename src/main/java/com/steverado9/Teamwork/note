@@ -33,3 +33,10 @@ and @DeleteMapping annotation for mapping HTTP DELETE requests onto specific han
 @PatchMapping
 The PATCH HTTP method is used when you want to apply a partial update to the resource
 and @PatchMapping annotation for mapping HTTP PATCH requests onto specific handler methods.
+
+    How to use cloudinary
+1)search cloudinary http maven
+click on maven repository and select a version
+2)common io maven
+click on maven repository and select a version
+3)Create a config package and add a CloudinaryConfig class
