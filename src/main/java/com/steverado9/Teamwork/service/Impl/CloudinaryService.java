@@ -20,7 +20,8 @@ public class CloudinaryService {
             final Map result = cloudinary.uploader().upload(file.getBytes(), Map.of("public_id", "/gifs" + fileName));
             final String url = (String) result.get("secure_url");
             final String publicId = (String) result.get("public_id");
-            return CloudinaryResponse.builder().publicId(publicId).url(url).build();
+            CloudinaryResponse response = new CloudinaryResponse(publicId, url);
+            return response;
         } catch (Exception e) {
             throw new UnsupportedOperationException("Failed to upload file");
         }

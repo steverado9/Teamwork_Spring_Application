@@ -13,18 +13,17 @@
       </h1>
     </div>
   </nav>
-  <div class="container">
+  <div class="container mt-4">
     <div class="row">
-      <form th:action="@{/api/v1/gifs}" th:object="${gif}" method="POST">
-
+      <form th:action="@{/api/v1/gifs}" th:object="${gif}" method="POST" enctype="multipart/form-data">
         <div class="mb-3 mt-3">
-          <input type="text" name="title" th:field="*{title}" class="form-control" id="exampleFormControlInput1" placeholder="gif title">
+          <input type="text" th:field="*{title}" name="title" class="form-control" placeholder="gif title" required>
         </div>
         <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label">Gif</label>
-          <textarea class="form-control" name="content" th:field="*{content}" id="exampleFormControlTextarea1" rows="3"></textarea>
+          <label class="form-label">Upload Gif</label>
+          <input type="file" name="file" class="form-control" accept="image/*" required>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Upload</button>
       </form>
     </div>
   </div>

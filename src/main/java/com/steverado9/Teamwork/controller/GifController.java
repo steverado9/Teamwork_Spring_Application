@@ -37,16 +37,23 @@ public class GifController {
     }
 
     @PostMapping("/api/v1/gifs")
-    public String saveGif(@ModelAttribute("gif") Gif gif, HttpSession session, RedirectAttributes redirectAttributes , @RequestPart final MultipartFile) {
-        User loggedInUser = (User) session.getAttribute("loggedInUser");
+    public String saveGif( @RequestPart("file") MultipartFile file ,
+                           @ModelAttribute("gif") Gif gif,
+                           HttpSession session,
+                           RedirectAttributes redirectAttributes ) {
+        try{
+            User loggedInUser = (User) session.getAttribute("loggedInUser");
+            if (loggedInUser == null) {
+                return "redirect:/api/v1/auth/sign_in";
+            }
+            gif.setUser(loggedInUser);
+            gifService.saveGif(gif, file);
 
-        gif.setUser(loggedInUser);
-        gifService.saveGif(gif);
-
-        //successfully added article
-        redirectAttributes.addFlashAttribute("successMessage", "article created sucessfully!");
-
-        return "redirect:/api/v1/feeds";
-
+            redirectAttributes.addFlashAttribute("successMessage", "GIF uploaded successfully!");
+            return "redirect:/api/v1/feeds";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Upload failed: " + e.getMessage());
+            return "redirect:/api/v1/gifs";
+        }
     }
 }
