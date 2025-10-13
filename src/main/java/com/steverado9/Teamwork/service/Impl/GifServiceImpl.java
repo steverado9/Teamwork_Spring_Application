@@ -39,10 +39,10 @@ public class GifServiceImpl implements GifService {
     public Gif saveGif(Gif gif, MultipartFile file) {
         FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
 
-        final String fileName = FileUploadUtil.getFileName(file.getOriginalFilename());
-        final CloudinaryResponse response = cloudinaryService.uploadFile(file, fileName);
 
-        gif.setImageUrl(response.url);
+        final String response = cloudinaryService.uploadFile(file);
+
+        gif.setImageUrl(response);
 
         return gifRepository.save(gif);
     }

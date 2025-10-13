@@ -12,7 +12,7 @@
             <ul class="d-flex list-unstyled" role="search">
                 <li th:if="${admin}" class="me-4"><a class="text-white text-decoration-none" th:href="@{/api/v1/auth/create_user}">Create employee</a></li>
                 <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/logout}">Logout</a></li>
-                <li class=""><a class="text-white text-decoration-none" th:href="@{/api/v1/articles}">Post Article</a></li>
+                <li class="me-4"><a class="text-white text-decoration-none" th:href="@{/api/v1/articles}">Post Article</a></li>
                 <li class=""><a class="text-white text-decoration-none" th:href="@{/api/v1/gifs}">Post Gif</a></li>
             </ul>
         </div>
@@ -21,6 +21,7 @@
     <br>
     <div class="container">
         <div class="row">
+            <!--article-->
             <div class="card m-3" style="width: 18rem;" th:each="article : ${articles}">
                 <div class="card-body">
                     <h5 class="card-title">
@@ -32,12 +33,18 @@
 
                         <a th:href="@{/api/v1/articles/edit/{id}(id=${article.id})}" class="btn btn-primary">Edit</a>
 
-                        <form th:object="${articles}" th:action="@{/api/v1/articles/delete/{id}(id=${article.id})}" th:method="delete">
+                        <form th:action="@{/api/v1/articles/delete/{id}(id=${article.id})}" method="POST">
                             <input type="hidden" name="_method" value="delete" />
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
-
+                </div>
+            </div>
+            <!--gif-->
+            <div class="card" style="width: 18rem;" th:each="gif : ${gifs}">
+                <img th:src="${gif.imageUrl}" class="card-img-top" th:alt="${gif.title}">
+                <div class="card-body">
+                    <p class="card-text text-center" th:text="${gif.title}"></p>
                 </div>
             </div>
         </div>

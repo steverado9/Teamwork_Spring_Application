@@ -46,6 +46,7 @@ public class GifController {
             if (loggedInUser == null) {
                 return "redirect:/api/v1/auth/sign_in";
             }
+
             gif.setUser(loggedInUser);
             gifService.saveGif(gif, file);
 

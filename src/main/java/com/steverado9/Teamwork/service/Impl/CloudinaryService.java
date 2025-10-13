@@ -1,6 +1,7 @@
 package com.steverado9.Teamwork.service.Impl;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.steverado9.Teamwork.response.CloudinaryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,11 @@ public class CloudinaryService {
     private Cloudinary cloudinary;
 
     @Transactional
-    public CloudinaryResponse uploadFile(MultipartFile file, String fileName) {
+    public String uploadFile(MultipartFile file) {
         try {
-            final Map result = cloudinary.uploader().upload(file.getBytes(), Map.of("public_id", "/gifs" + fileName));
+            final Map result = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
             final String url = (String) result.get("secure_url");
-            final String publicId = (String) result.get("public_id");
-            CloudinaryResponse response = new CloudinaryResponse(publicId, url);
-            return response;
+            return url;
         } catch (Exception e) {
             throw new UnsupportedOperationException("Failed to upload file");
         }
