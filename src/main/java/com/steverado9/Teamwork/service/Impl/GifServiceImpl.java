@@ -37,13 +37,16 @@ public class GifServiceImpl implements GifService {
     @Transactional
     @Override
     public Gif saveGif(Gif gif, MultipartFile file) {
+        System.out.println("service one");
         FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
 
-
+        System.out.println("service two");
         final String response = cloudinaryService.uploadFile(file);
 
+        System.out.println("service three");
         gif.setImageUrl(response);
 
+        System.out.println("service four");
         return gifRepository.save(gif);
     }
 

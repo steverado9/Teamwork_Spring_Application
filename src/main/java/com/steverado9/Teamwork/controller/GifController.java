@@ -43,12 +43,16 @@ public class GifController {
                            RedirectAttributes redirectAttributes ) {
         try{
             User loggedInUser = (User) session.getAttribute("loggedInUser");
+            System.out.println("one");
             if (loggedInUser == null) {
                 return "redirect:/api/v1/auth/sign_in";
             }
+            System.out.println("two");
 
             gif.setUser(loggedInUser);
+            System.out.println("three");
             gifService.saveGif(gif, file);
+            System.out.println("four");
 
             redirectAttributes.addFlashAttribute("successMessage", "GIF uploaded successfully!");
             return "redirect:/api/v1/feeds";
