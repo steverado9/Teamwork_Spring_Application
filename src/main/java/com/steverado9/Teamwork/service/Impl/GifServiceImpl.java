@@ -3,6 +3,7 @@ package com.steverado9.Teamwork.service.Impl;
 import com.steverado9.Teamwork.entity.Article;
 import com.steverado9.Teamwork.entity.Gif;
 import com.steverado9.Teamwork.entity.User;
+import com.steverado9.Teamwork.repository.GifCommentRepository;
 import com.steverado9.Teamwork.repository.GifRepository;
 import com.steverado9.Teamwork.response.CloudinaryResponse;
 import com.steverado9.Teamwork.service.GifService;
@@ -21,32 +22,30 @@ public class GifServiceImpl implements GifService {
 
     private GifRepository gifRepository;
     private CloudinaryService cloudinaryService;
+    private GifCommentRepository gifCommentRepository;
 
     @Autowired
-    public GifServiceImpl(GifRepository gifRepository, CloudinaryService cloudinaryService) {
+    public GifServiceImpl(GifRepository gifRepository, CloudinaryService cloudinaryService, GifCommentRepository gifCommentRepository) {
         super();
         this.gifRepository = gifRepository;
         this.cloudinaryService = cloudinaryService;
+        this.gifCommentRepository = gifCommentRepository;
     }
 
     @Override
-    public List<Gif> getAllGif() {
-        return gifRepository.findAll();
+    public List<Gif> getAllGifs() {
+        return gifRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Transactional
     @Override
     public Gif saveGif(Gif gif, MultipartFile file) {
-        System.out.println("service one");
         FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
 
-        System.out.println("service two");
         final String response = cloudinaryService.uploadFile(file);
 
-        System.out.println("service three");
         gif.setImageUrl(response);
 
-        System.out.println("service four");
         return gifRepository.save(gif);
     }
 
@@ -60,8 +59,10 @@ public class GifServiceImpl implements GifService {
         return gifRepository.save(gif);
     }
 
+    @Transactional
     @Override
     public void deleteGifById(Long id) {
+        gifCommentRepository.deleteByGifId(id);
         gifRepository.deleteById(id);
     }
 }

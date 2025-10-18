@@ -23,15 +23,16 @@
         <div class="row">
             <!--article-->
             <div class="card m-3" style="width: 18rem;" th:each="article : ${articles}">
-                <div class="card-body">
+                <div class="card-body text-center">
                     <h5 class="card-title">
                         <a th:text="${article.title}" th:href="@{/api/v1/articles/{id}(id=${article.id})}"  class="text-decoration-none"></a>
                     </h5>
                     <p class="card-text" th:text="${article.content}"></p>
-                    <div class="d-flex">
-                        <a th:href="@{/api/v1/articles/{id}/comment(id=${article.id})}" class="btn btn-success">Add Comment</a>
-
-                        <a th:href="@{/api/v1/articles/edit/{id}(id=${article.id})}" class="btn btn-primary">Edit</a>
+                    <div >
+                        <a th:href="@{/api/v1/articles/{id}/comment(id=${article.id})}" class="text-center btn btn-success">Add Comment</a>
+                    </div>
+                    <div class="d-flex flex-column">
+                        <a th:href="@{/api/v1/articles/edit/{id}(id=${article.id})}" class="btn btn-primary m-3">Edit</a>
 
                         <form th:action="@{/api/v1/articles/delete/{id}(id=${article.id})}" method="POST">
                             <input type="hidden" name="_method" value="delete" />
@@ -43,8 +44,16 @@
             <!--gif-->
             <div class="card" style="width: 18rem;" th:each="gif : ${gifs}">
                 <img th:src="${gif.imageUrl}" class="card-img-top" th:alt="${gif.title}">
-                <div class="card-body">
-                    <p class="card-text text-center" th:text="${gif.title}"></p>
+                <div class="card-body text-center">
+                    <a class="card-text text-center text-decoration-none" th:href="@{/api/v1/gifs/{id}(id=${gif.id})}" th:text="${gif.title}"></a>
+                    <div class="d-flex flex-column">
+                        <a th:href="@{/api/v1/gifs/{id}/comment(id=${gif.id})}" class="btn btn-success mb-3">Add Comment</a>
+
+                        <form  th:action="@{/api/v1/gifs/delete/{id}(id=${gif.id})}" method="POST">
+                            <input type="hidden" name="_method" value="delete" />
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

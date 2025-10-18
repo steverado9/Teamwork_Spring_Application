@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Single Article</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a th:href="@{/api/v1/feeds}" class="text-decoration-none">
+      Go to feeds
+    </a>
+  </div>
+</nav>
+<br>
+<br>
+<h1 th:text="${gif.title}"></h1>
+<img th:src="${gif.imageUrl}" th:alt="${gif.title}">
+<hr/>
+<h3>Comments:</h3>
+<ul>
+  <li th:each="gifComment : ${gifComments}">
+    <span th:text="${gifComment.comment}"></span>
+  </li>
+</ul>
+</body>
+</html>

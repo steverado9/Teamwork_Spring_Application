@@ -1,9 +1,11 @@
 package com.steverado9.Teamwork.service.Impl;
 
 import com.steverado9.Teamwork.entity.Article;
+import com.steverado9.Teamwork.repository.ArticleCommentRepository;
 import com.steverado9.Teamwork.repository.ArticleRepository;
 import com.steverado9.Teamwork.service.ArticleService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,15 +13,17 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     private ArticleRepository articleRepository;
+    private ArticleCommentRepository articleCommentRepository;
 
-    public ArticleServiceImpl(ArticleRepository articleRepository) {
+    public ArticleServiceImpl(ArticleRepository articleRepository, ArticleCommentRepository articleCommentRepository) {
         super();
         this.articleRepository = articleRepository;
+        this.articleCommentRepository = articleCommentRepository;
     }
 
     @Override
     public List<Article> getAllArticles() {
-        return articleRepository.findAll();
+        return articleRepository.findAllByOrderByCreatedAtDesc();
     }
 
     @Override
@@ -37,8 +41,10 @@ public class ArticleServiceImpl implements ArticleService {
         return articleRepository.save(article);
     }
 
+    @Transactional
     @Override
     public void deleteArticleById(Long id) {
+        articleCommentRepository.deleteByArticleId(id);
         articleRepository.deleteById(id);
     }
 

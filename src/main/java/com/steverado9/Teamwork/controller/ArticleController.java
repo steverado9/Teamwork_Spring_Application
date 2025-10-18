@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 public class ArticleController {
 
@@ -105,8 +107,14 @@ public class ArticleController {
 
     @GetMapping("/api/v1/articles/{id}")
     public String getOneArticleForm (@PathVariable Long id, Model model) {
+        List<ArticleComment> comments = articleCommentService.getArticleCommentsWithId(id);
+
+        if (comments == null || comments.isEmpty()) {
+            return "redirect:/api/v1/feeds";
+        }
+
         model.addAttribute("article",  articleService.getArticleById(id));
-        model.addAttribute("articleComments", articleCommentService.getArticleCommentsWithId(id));
+        model.addAttribute("articleComments", comments);
         return "single_article";
     }
 }

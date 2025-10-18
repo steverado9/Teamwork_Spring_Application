@@ -8,4 +8,7 @@ import java.util.List;
 public interface ArticleCommentRepository extends JpaRepository<ArticleComment, Long> {
     //custom method
     List<ArticleComment> findByArticle_Id(Long articleId);
+
+    void deleteByArticleId(Long articleId);
+
 }

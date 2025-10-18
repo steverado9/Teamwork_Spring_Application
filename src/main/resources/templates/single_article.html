@@ -8,7 +8,7 @@
 <body>
   <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
     <div class="container-fluid">
-      <a th:action="@{/api/v1/feeds}" class="text-decoration-none">
+      <a th:href="@{/api/v1/feeds}" class="text-decoration-none">
         Go to feeds
       </a>
     </div>
@@ -20,8 +20,8 @@
   <hr/>
   <h3>Comments:</h3>
   <ul>
-    <li th:each="comment : ${articleComments}">
-      <span th:text="${comment.comment}"></span>
+    <li th:each="articleComment : ${articleComments}">
+      <span th:text="${articleComment.comment}"></span>
     </li>
   </ul>
 </body>

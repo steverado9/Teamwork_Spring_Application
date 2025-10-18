@@ -1,13 +1,14 @@
 package com.steverado9.Teamwork.service;
 
 import com.steverado9.Teamwork.entity.Gif;
+import com.steverado9.Teamwork.entity.GifComment;
 import com.steverado9.Teamwork.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface GifService {
-    List<Gif> getAllGif();
+    List<Gif> getAllGifs();
 
     Gif saveGif(Gif gif, MultipartFile file);
 
@@ -16,4 +17,5 @@ public interface GifService {
     Gif updateGif(Gif gif);
 
     void deleteGifById(Long id);
+
 }

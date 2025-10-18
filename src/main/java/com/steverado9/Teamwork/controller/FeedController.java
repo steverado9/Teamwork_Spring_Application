@@ -25,7 +25,7 @@ public class FeedController {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
         model.addAttribute("articles", articleService.getAllArticles());
-        model.addAttribute("gifs", gifService.getAllGif());
+        model.addAttribute("gifs", gifService.getAllGifs());
         model.addAttribute("admin",  loggedInUser.getJobRole().equalsIgnoreCase("admin"));
 
         return "feeds";
