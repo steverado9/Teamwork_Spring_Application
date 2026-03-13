@@ -35,6 +35,7 @@ public class GifController {
         if (loggedInUser == null) {
             return "redirect:/api/v1/auth/sign_in";
         }
+
         Gif gif = new Gif();
         model.addAttribute("gif", gif);
         return "create_gif";
@@ -47,15 +48,12 @@ public class GifController {
                            RedirectAttributes redirectAttributes ) {
         try{
             User loggedInUser = (User) session.getAttribute("loggedInUser");
-            if (loggedInUser == null) {
-                return "redirect:/api/v1/auth/sign_in";
-            }
 
             gif.setUser(loggedInUser);
             gifService.saveGif(gif, file);
 
             redirectAttributes.addFlashAttribute("successMessage", "GIF uploaded successfully!");
-            return "redirect:/api/v1/feeds";
+            return "redirect:/feeds";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Upload failed: " + e.getMessage());
             return "redirect:/api/v1/gifs";
@@ -65,11 +63,18 @@ public class GifController {
     @DeleteMapping("/api/v1/gifs/delete/{id}")
     public String deleteGif(@PathVariable Long id) {
         gifService.deleteGifById(id);
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/api/v1/gifs/{id}/comment")
-    public String createCommentForm(@PathVariable Long id, Model model){
+    public String createCommentForm(@PathVariable Long id, Model model, HttpSession session){
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if (loggedInUser == null) {
+            return "redirect:/api/v1/auth/sign_in";
+        }
+
         GifComment gifComment = new GifComment();
         model.addAttribute("gifComment", gifComment);
         model.addAttribute("gifId", id);
@@ -85,15 +90,21 @@ public class GifController {
         gifComment.setGif(existingGif);
 
         gifCommentService.saveGifComment(gifComment);
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/api/v1/gifs/{id}")
-    public String getOneGifForm(@PathVariable Long id, Model model) {
+    public String getOneGifForm(@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if (loggedInUser == null) {
+            return "redirect:/api/v1/auth/sign_in";
+        }
+
         List<GifComment> comments = gifCommentService.getGifCommentWithId(id);
 
         if (comments == null|| comments.isEmpty()) {
-            return "redirect:/api/v1/feeds";
+            return "redirect:/feeds";
         }
         
         model.addAttribute("gif", gifService.getGifById(id));

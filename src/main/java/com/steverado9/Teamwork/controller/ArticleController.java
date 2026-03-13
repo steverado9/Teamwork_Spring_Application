@@ -54,11 +54,17 @@ public class ArticleController {
         //successfully added article
         redirectAttributes.addFlashAttribute("successMessage", "article created sucessfully!");
 
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/api/v1/articles/edit/{id}")
-    public String editStudentForm(@PathVariable Long id, Model model) {
+    public String editStudentForm(@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/api/v1/auth/sign_in";
+        }
+
         model.addAttribute("article", articleService.getArticleById(id));
         return "edit_article";
     }
@@ -73,17 +79,22 @@ public class ArticleController {
 
         //save updated article object
         articleService.updateArticle(existingArticle);
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @DeleteMapping("/api/v1/articles/delete/{id}")
     public String deleteArticle(@PathVariable Long id) {
         articleService.deleteArticleById(id);
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/api/v1/articles/{id}/comment")
-    public String createCommentForm(@PathVariable Long id, Model model) {
+    public String createCommentForm(@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/api/v1/auth/sign_in";
+        }
 
         ArticleComment articleComment = new ArticleComment();
         model.addAttribute("articleComment", articleComment);
@@ -102,15 +113,21 @@ public class ArticleController {
         articleComment.setArticle(existingArticle);
 
         articleCommentService.saveArticleComment(articleComment);
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/api/v1/articles/{id}")
-    public String getOneArticleForm (@PathVariable Long id, Model model) {
+    public String getOneArticleForm (@PathVariable Long id, Model model, HttpSession session) {
+
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser == null) {
+            return "redirect:/api/v1/auth/sign_in";
+        }
+
         List<ArticleComment> comments = articleCommentService.getArticleCommentsWithId(id);
 
         if (comments == null || comments.isEmpty()) {
-            return "redirect:/api/v1/feeds";
+            return "redirect:/feeds";
         }
 
         model.addAttribute("article",  articleService.getArticleById(id));

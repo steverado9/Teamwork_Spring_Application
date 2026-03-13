@@ -1,4 +1,4 @@
-package com.steverado9.Teamwork.exception;
+package com.steverado9.Teamwork.controller;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,6 +9,10 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public String handleNotFound(Exception e, Model model) {
-        return "redirect:/api/v1/auth/sign_in";    }
+    public String handle404(NoHandlerFoundException ex, Model model) {
+
+        model.addAttribute("errorMessage", "Page not found");
+        return "error/404";
+    }
+
 }

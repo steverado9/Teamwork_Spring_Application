@@ -20,9 +20,14 @@ public class FeedController {
         this.gifService = gifService;
     }
 
-    @GetMapping("/api/v1/feeds")
+    @GetMapping("/feeds")
     public String listOfArticlesAndGifs(Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
+
+        if(loggedInUser == null) {
+            System.out.println("user does not exist");
+            return "redirect:sign_in";
+        }
 
         model.addAttribute("articles", articleService.getAllArticles());
         model.addAttribute("gifs", gifService.getAllGifs());

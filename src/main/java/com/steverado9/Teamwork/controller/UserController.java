@@ -27,13 +27,14 @@ public class UserController {
     public String createUserForm(Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-        //not logged in, send to loggin page
+        //not logged in, send to login page
         if (loggedInUser == null) {
             return "redirect:/api/v1/auth/sign_in";
         }
 
         if (!loggedInUser.getJobRole().equalsIgnoreCase("admin")) {
-            return "access_denied";
+            System.out.println("access_denied");
+            return "redirect:/api/v1/auth/sign_in";
         }
 
         User user = new User();
@@ -46,19 +47,11 @@ public class UserController {
         try {
             User loggedInUser = (User) session.getAttribute("loggedInUser");
 
-            if (loggedInUser == null) {
-                return "redirect:/api/v1/auth/sign_in";
-            }
-
-            if (!loggedInUser.getJobRole().equalsIgnoreCase("admin")) {
-                return "access_denied";
-            }
-
             userService.saveUser(user);
 
             redirectAttributes.addFlashAttribute("successMessage", "Employee created sucessfully!, please signin");
 
-            return "redirect:/api/v1/auth/sign_in";
+            return "redirect:/feeds";
         } catch (DataIntegrityViolationException e) {
             model.addAttribute("errorMessage", "Email already exists!");
             return "create_user";
@@ -66,7 +59,13 @@ public class UserController {
     }
 
     @GetMapping("/api/v1/auth/sign_in")
-    public String signInForm(Model model) {
+    public String signInForm(Model model, HttpSession session) {
+        //if there is a logged in user, redirect to feeds
+        User loggedInUser = (User) session.getAttribute("loggedInUser");
+        if(loggedInUser != null) {
+            return "redirect:/feeds";
+        }
+
         User user = new User();
         model.addAttribute("user", user);
         return "sign_in";
@@ -94,9 +93,9 @@ public class UserController {
         session.setAttribute("loggedInUser", existingUser);
 
         if (existingUser.getJobRole().equalsIgnoreCase("admin")) {
-            return "redirect:/api/v1/feeds";
+            return "redirect:/feeds";
         }
-        return "redirect:/api/v1/feeds";
+        return "redirect:/feeds";
     }
 
     @GetMapping("/logout")
