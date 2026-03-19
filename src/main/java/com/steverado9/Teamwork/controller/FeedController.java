@@ -32,6 +32,7 @@ public class FeedController {
         model.addAttribute("articles", articleService.getAllArticles());
         model.addAttribute("gifs", gifService.getAllGifs());
         model.addAttribute("admin",  loggedInUser.getJobRole().equalsIgnoreCase("admin"));
+        model.addAttribute("user", loggedInUser);
 
         return "feeds";
     }
