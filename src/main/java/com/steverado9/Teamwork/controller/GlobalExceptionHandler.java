@@ -11,7 +11,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     public String handle404(NoHandlerFoundException ex, Model model) {
 
-        model.addAttribute("errorMessage", "Page not found");
+        model.addAttribute("errorMessage", "Oops! Page not found");
         return "error/404";
     }
 
