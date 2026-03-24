@@ -1,6 +1,5 @@
 package com.steverado9.Teamwork.controller;
 
-import com.steverado9.Teamwork.entity.Article;
 import com.steverado9.Teamwork.entity.Gif;
 import com.steverado9.Teamwork.entity.GifComment;
 import com.steverado9.Teamwork.entity.User;
@@ -42,11 +41,11 @@ public class GifController {
     }
 
     @PostMapping("/api/v1/gifs")
-    public String saveGif( @RequestPart("file") MultipartFile file ,
-                           @ModelAttribute("gif") Gif gif,
-                           HttpSession session,
-                           RedirectAttributes redirectAttributes ) {
-        try{
+    public String saveGif(@RequestPart("file") MultipartFile file,
+                          @ModelAttribute("gif") Gif gif,
+                          HttpSession session,
+                          RedirectAttributes redirectAttributes) {
+        try {
             User loggedInUser = (User) session.getAttribute("loggedInUser");
 
             gif.setUser(loggedInUser);
@@ -67,7 +66,7 @@ public class GifController {
     }
 
     @GetMapping("/api/v1/gifs/{id}/comment")
-    public String createCommentForm(@PathVariable Long id, Model model, HttpSession session){
+    public String createCommentForm(@PathVariable Long id, Model model, HttpSession session) {
 
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
@@ -103,10 +102,10 @@ public class GifController {
 
         List<GifComment> comments = gifCommentService.getGifCommentWithId(id);
 
-        if (comments == null|| comments.isEmpty()) {
+        if (comments == null || comments.isEmpty()) {
             return "redirect:/feeds";
         }
-        
+
         model.addAttribute("gif", gifService.getGifById(id));
         model.addAttribute("gifComments", comments);
         return "single_gif";

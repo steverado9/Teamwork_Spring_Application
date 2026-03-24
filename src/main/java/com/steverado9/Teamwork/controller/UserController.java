@@ -79,14 +79,14 @@ public class UserController {
         if(existingUser == null) {
             System.out.println("user does not exist");
             model.addAttribute("errorMessage", "invalid email and password");
-            return "sign_in";
+            return "redirect:/sign_in";
         }
 
         String existingPassword = existingUser.getPassword();
         if (!user.getPassword().equalsIgnoreCase(existingPassword)) {
             System.out.println("Incorrect password");
             model.addAttribute("errorMessage", "invalid email and password");
-            return "sign_in";
+            return "redirect:/sign_in";
         }
 
         //store the logged in(existing user) in session
